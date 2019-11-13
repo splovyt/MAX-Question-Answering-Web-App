@@ -16,8 +16,10 @@
 
 import json
 import requests
+import random
 from similarity.metric_lcs import MetricLCS
 
+OPENING_MESSAGE = f"Hi, my name is QnAit!\nI'm answering Biology questions today.\nTo get started, please provice a topic. For example: {random.choice(['brain', 'blood', 'cells'])}."
 
 def choice():
     return choice
@@ -26,7 +28,6 @@ def choice():
 # threshold for how far (string distance) two strings can be from each other
 # to be considered a match
 distance_threshold = 0.4
-
 
 def get_close_matches(topic, titles):
     metric_lcs = MetricLCS()
@@ -89,8 +90,8 @@ def ask(model_endpoint, question, titles):
     json_data = {"paragraphs": [{"context": titles[choice][1],
                                  "questions": [question]}]}
     r = requests.post(url=model_endpoint, json=json_data).json()
-    return r["predictions"][0][0] + "\nIs there another topic you are curious about?", 1, {}
+    return r["predictions"][0][0] + "\nWhat other topic are you curious about?", 1, {}
 
 # state 5
 def end(model_endpoint, topic, titles):
-    return "restarting app.. \n"+"Done \n" + "Hi! What would you like to learn about today?", 1, {}
+    return "restarting app.. \n"+"Done \n" + OPENING_MESSAGE, 1, {}

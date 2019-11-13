@@ -1,5 +1,22 @@
+#
+# Copyright 2018-2019 IBM Corp. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 from flask import Flask, render_template, request, jsonify
 from chatbot import *  # functions for each state
+from chatbot import OPENING_MESSAGE
 import json
 import random
 
@@ -17,23 +34,6 @@ states = {
 textbook_data = None
 titles = None
 model_endpoint = "http://0.0.0.0:5000/model/predict"
-
-
-#
-# Copyright 2018-2019 IBM Corp. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 
 # flattens textbook data for searching and matching user input to sections of the textbook
 def flattened_titles(data):
@@ -84,10 +84,10 @@ def chat():
         response, new_state, matches = get_next_text(model_endpoint, input_text, narrowed_titles)
         return jsonify({"response": response, "state": new_state, "matches": matches})
     elif request.method == "GET":
-        return render_template("index.html", display_text=f"Hi! My name is QnAit and I'm answering Biology questions today.\nTo get started, please provice a topic. For example: {random.choice(['brain', 'blood', 'cells'])}.", state=1)
+        return render_template("index.html", display_text=OPENING_MESSAGE, state=1)
 
 if __name__ == "__main__":
     with open("txt.json", "r") as file:
         textbook_data = json.load(file)
     titles = flattened_titles(textbook_data)
-    app.run(port=8000, host="0.0.0.0")
+    app.run(port=8000, host="0.0.0.0", debug=True)
