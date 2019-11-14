@@ -18,6 +18,8 @@ When the reader has completed this Code Pattern, they will understand how to:
 2. Web UI requests answers from Server and updates chat when data is returned.
 3. Server sends question and body of text to Model API and receives answer data.
 
+![](example.png)
+
 ## Included Components
 
 * [IBM Model Asset Exchange](https://developer.ibm.com/exchanges/models/): A place for developers to find and use
