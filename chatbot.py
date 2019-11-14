@@ -92,4 +92,4 @@ def ask(model_endpoint, question, titles):
 
 # state 5
 def end(model_endpoint, topic, titles):
-    return "restarting app..\n\n" + get_opening_message(), 1, {}
+    return "restarting app...\n\n" + get_opening_message(), 1, {}
