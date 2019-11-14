@@ -54,7 +54,7 @@ def get_topic(model_endpoint, topic, titles):
 
     # hardcoded fun :)
     if topic == "What is the meaning of life?":
-        return "42\n\nIf you are curious about another topic, reply with the topic.", 1, {
+        return "42\n\nIf you are curious about another topic, reply with the topic.", 1, {}
 
     matches = get_close_matches(topic.title(), titles.keys())
     if len(matches) == 0:
